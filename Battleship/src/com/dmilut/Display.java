@@ -5,10 +5,11 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Display {
-    private static Display instance;
-    private final World world = World.getInstance();
+    //private static Display instance;
+    private static final String[] X_BY_LETTERS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+    private Scanner scanner;
 
-    private Display() {
+/*    private Display() {
     }
 
     public static Display getInstance() {
@@ -16,30 +17,59 @@ public class Display {
             instance = new Display();
         }
         return instance;
+    }*/
+
+    public Coordinates enterCoordinates() {
+        scanner = new Scanner(System.in);
+        System.out.println("Please enter coordinates!");
+
+        return translateRawCoordinates(scanner.nextLine());
     }
 
-    public Coordinates enterCoordinate() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter coordinate!");
-        String[] rawCoordinates = scanner.nextLine().split("");
-        scanner.close();
+    public Coordinates translateRawCoordinates(String rawCoordinates) {
+        String[] rawCoordinatesArray = rawCoordinates.split("");
 
-        String[] xByLetters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+        if (rawCoordinatesArray.length == 3) {
+            rawCoordinatesArray[1] = rawCoordinatesArray[1] + rawCoordinatesArray[2];
+        }
 
-        for (int i = 0; i < xByLetters.length; i++) {
-            if (rawCoordinates[0].toUpperCase(Locale.ROOT).equals(xByLetters[i])) {
-                return new Coordinates(i, Integer.parseInt(rawCoordinates[1]) - 1);
+        for (int i = 0; i < X_BY_LETTERS.length; i++) {
+            if (rawCoordinatesArray[0].toUpperCase(Locale.ROOT).equals(X_BY_LETTERS[i])) {
+                return new Coordinates(i, Integer.parseInt(rawCoordinatesArray[1]) - 1);
             }
         }
+
         return null;
     }
 
-    public void printShotPastGoalMessage() {
-        System.out.println("Shot past a goal!");
+    public String translateCoordinatesToRaw(Coordinates coordinates) {
+
+        return X_BY_LETTERS[coordinates.getX()] + (coordinates.getY() + 1);
     }
 
-    public void printGotIntoShipMessage() {
-        System.out.println("Shot got into the ship!");
+    public void enterPlayerName() {
+        scanner = new Scanner(System.in);
+        System.out.println("Please enter your name");
+        Game.playerName = scanner.nextLine();
+    }
+
+    public boolean isConfirm() {
+        System.out.println("Would you like to continue? yes/no");
+        String confirm = scanner.nextLine();
+
+        return confirm.equals("yes");
+    }
+
+    public void printWinMessage(String playerName) {
+        System.out.println(playerName + " is win!");
+    }
+
+    public void printShotPastGoalMessage(Coordinates coordinates) {
+        System.out.println("*** Coordinates " + translateCoordinatesToRaw(coordinates) + " - Shot past a goal!");
+    }
+
+    public void printGotIntoShipMessage(Coordinates coordinates) {
+        System.out.println("*** Coordinates " + translateCoordinatesToRaw(coordinates) + " - Shot got into the ship!");
     }
 
     public void printShipDiedMessage(Ship ship) {
@@ -47,14 +77,10 @@ public class Display {
         System.out.print(type + " is sunk!");
     }
 
-    public void printWorld() {
-        printHeader(World.COMPUTER_NAME);
-        printGrid(world.getComputerBoard().getGrid());
-        printFooter(world.getComputerBoard().getShips());
-
-        printHeader(World.playerName);
-        printGrid(world.getPlayerBoard().getGrid());
-        printFooter(world.getPlayerBoard().getShips());
+    public void printBoard(Board board) {
+        printHeader(board.getPlayerName());
+        printGrid(board.getGrid());
+        printFooter(board.getShips());
     }
 
     private void printHeader(String playerName) {
@@ -75,7 +101,11 @@ public class Display {
                     System.out.print("|");
                 }
 
-                System.out.print(grid[y][x].getSymbol());
+                if (grid[y][x].isVisible()) {
+                    System.out.print(grid[y][x].getSymbol());
+                } else {
+                    System.out.print(" ? ");
+                }
                 System.out.print("|");
             }
             System.out.println();
@@ -106,11 +136,9 @@ public class Display {
                 numberOfPatrolBoat++;
             }
         }
-        System.out.println("Carrier = " + numberOfCarrier);
-        System.out.println("Battleship = " + numberOfBattleship);
-        System.out.println("Destroyer = " + numberOfDestroyer);
-        System.out.println("Submarine = " + numberOfSubmarine);
-        System.out.println("Patrol Boat = " + numberOfPatrolBoat);
+        System.out.println("*** Carrier = " + numberOfCarrier + " | Battleship = " + numberOfBattleship +
+                " | Destroyer = " + numberOfDestroyer + " | Submarine = " + numberOfSubmarine +
+                " | Patrol Boat = " + numberOfPatrolBoat);
     }
 
 }

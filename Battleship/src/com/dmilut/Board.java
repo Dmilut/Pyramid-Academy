@@ -10,16 +10,22 @@ public class Board {
 
     public Board(String playerName) {
         this.playerName = playerName;
-        this.grid = generateGrid();
+        this.grid = generateGrid(playerName);
         this.ships = new ArrayList<>();
     }
 
-    private Cell[][] generateGrid() {
+    private Cell[][] generateGrid(String playerName) {
+        boolean isVisible;
         Cell[][] grid = new Cell[SIZE][SIZE];
 
         for (int x = 0; x < grid[0].length; x++) {
             for (int y = 0; y < grid.length; y++) {
-                grid[x][y] = new Cell(new Coordinates(x, y), " ? ");
+                if (playerName.equals(Game.COMPUTER_NAME)) {
+                    isVisible = false;
+                } else {
+                    isVisible = true;
+                }
+                grid[x][y] = new Cell(new Coordinates(x, y), isVisible);
             }
         }
 

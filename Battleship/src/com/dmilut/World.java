@@ -3,27 +3,18 @@ package com.dmilut;
 import java.util.Random;
 
 public class World {
-    private static World instance;
-    public static final String COMPUTER_NAME = "Computer";
-    public static String playerName;
+    //private static World instance;
     private Board computerBoard;
     private Board playerBoard;
 
-    private World() {
-        init(playerName);
+    public World() {
+        init();
     }
 
-    public static World getInstance() {
-        if (instance == null) {
-            instance = new World();
-        }
-        return instance;
-    }
-
-    private void init(String playerName) {
-        computerBoard = new Board(COMPUTER_NAME);
+    private void init() {
+        computerBoard = new Board(Game.COMPUTER_NAME);
         setUpShips(computerBoard);
-        playerBoard = new Board(playerName);
+        playerBoard = new Board(Game.playerName);
         setUpShips(playerBoard);
     }
 
@@ -78,12 +69,15 @@ public class World {
             if (i == 0) {
                 shipPart.setCoordinates(headCoordinates);
                 grid[headCoordinates.getY()][headCoordinates.getX()].setShip(ship);
+                grid[headCoordinates.getY()][headCoordinates.getX()].setSymbol(" 0 ");
             } else if (isVertical) {
                 shipPart.setCoordinates(new Coordinates(headX, headY + i));
                 grid[headCoordinates.getY() + i][headCoordinates.getX()].setShip(ship);
+                grid[headCoordinates.getY() + i][headCoordinates.getX()].setSymbol(" 0 ");
             } else {
                 shipPart.setCoordinates(new Coordinates(headX + i, headY));
                 grid[headCoordinates.getY()][headCoordinates.getX() + i].setShip(ship);
+                grid[headCoordinates.getY()][headCoordinates.getX() + i].setSymbol(" 0 ");
             }
         }
 
@@ -95,11 +89,11 @@ public class World {
 
         for (int i = 0; i < type.size; i++) {
             if (isVertical) {
-                if (grid[headCoordinates.getY() + i][headCoordinates.getX()].getShipPart() != null) {
+                if (grid[headCoordinates.getY() + i][headCoordinates.getX()].getShip() != null) {
                     return false;
                 }
             } else {
-                if (grid[headCoordinates.getY()][headCoordinates.getX() + i].getShipPart() != null) {
+                if (grid[headCoordinates.getY()][headCoordinates.getX() + i].getShip() != null) {
                     return false;
                 }
             }
@@ -111,15 +105,7 @@ public class World {
         return computerBoard;
     }
 
-    public void setComputerBoard(Board computerBoard) {
-        this.computerBoard = computerBoard;
-    }
-
     public Board getPlayerBoard() {
         return playerBoard;
-    }
-
-    public void setPlayerBoard(Board playerBoard) {
-        this.playerBoard = playerBoard;
     }
 }
