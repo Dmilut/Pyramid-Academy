@@ -11,7 +11,12 @@ public class Main {
         printGreeting();
 
         while (isContinue) {
-            String input = scanner.nextLine();
+            String input = null;
+            try {
+                input = scanner.nextLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             if (input.equals("1")) {
                 printMessageForChoose1();

@@ -19,7 +19,12 @@ public class Game {
 
             while (isWinOrLose) {
                 System.out.println("Please enter direction n/s/w/e");
-                String input = scanner.nextLine();
+                String input = null;
+                try {
+                    input = scanner.nextLine();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 if (world.getHuman().move(input)) {
                     System.out.println("Success!");
@@ -37,7 +42,12 @@ public class Game {
             }
 
             System.out.println("Would you like to continue? yes/no");
-            String confirm = scanner.nextLine();
+            String confirm = null;
+            try {
+                confirm = scanner.nextLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             isContinue = confirm.equals("yes");
         }

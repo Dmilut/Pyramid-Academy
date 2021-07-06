@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static void main(String[] args) {
         boolean isContinue = true;
@@ -12,29 +12,60 @@ public class Main {
 
         while (isContinue) {
             System.out.println("\033[0;1m" + "Hello! What is your name?");
-            scanner = new Scanner(System.in);
-            String playerName = scanner.nextLine();
+            String playerName = null;
+
+            try {
+                scanner = new Scanner(System.in);
+                playerName = scanner.nextLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             int numberOfTrying = 0;
 
             System.out.println("\033[0;1m" + "Well, " + playerName + ", I am thinking of a number between 1 and 20.\n" +
                     "Take a guess.");
             int number = getRandomNumber();
-            int guessNumber = scanner.nextInt();
+            int guessNumber = 0;
+
+            try {
+                scanner = new Scanner(System.in);
+                guessNumber = scanner.nextInt();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             numberOfTrying++;
 
             while (numberOfTrying <= 7) {
                 if (guessNumber > number) {
                     printHighMessage();
-                    guessNumber = scanner.nextInt();
+
+                    try {
+                        scanner = new Scanner(System.in);
+                        guessNumber = scanner.nextInt();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     numberOfTrying++;
                 } else if (guessNumber < number) {
                     printLowMessage();
-                    guessNumber = scanner.nextInt();
+
+                    try {
+                        scanner = new Scanner(System.in);
+                        guessNumber = scanner.nextInt();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     numberOfTrying++;
                 } else {
                     printWinMessage(playerName, numberOfTrying);
-                    String confirmation = new Scanner(System.in).nextLine();
-                    
+                    String confirmation = null;
+
+                    try {
+                        confirmation = new Scanner(System.in).nextLine();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (confirmation.equals("n")) {
                         isContinue = false;
                     }

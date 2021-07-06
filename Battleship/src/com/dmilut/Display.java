@@ -5,59 +5,42 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Display {
-    //private static Display instance;
     private static final String[] X_BY_LETTERS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
     private Scanner scanner;
 
-/*    private Display() {
-    }
-
-    public static Display getInstance() {
-        if (instance == null) {
-            instance = new Display();
-        }
-        return instance;
-    }*/
-
     public Coordinates enterCoordinates() {
-        scanner = new Scanner(System.in);
-        System.out.println("Please enter coordinates!");
+        try {
+            scanner = new Scanner(System.in);
+            System.out.println("Please enter coordinates!");
 
-        return translateRawCoordinates(scanner.nextLine());
-    }
-
-    public Coordinates translateRawCoordinates(String rawCoordinates) {
-        String[] rawCoordinatesArray = rawCoordinates.split("");
-
-        if (rawCoordinatesArray.length == 3) {
-            rawCoordinatesArray[1] = rawCoordinatesArray[1] + rawCoordinatesArray[2];
+            return translateRawCoordinates(scanner.nextLine());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        for (int i = 0; i < X_BY_LETTERS.length; i++) {
-            if (rawCoordinatesArray[0].toUpperCase(Locale.ROOT).equals(X_BY_LETTERS[i])) {
-                return new Coordinates(i, Integer.parseInt(rawCoordinatesArray[1]) - 1);
-            }
-        }
-
         return null;
     }
 
-    public String translateCoordinatesToRaw(Coordinates coordinates) {
-
-        return X_BY_LETTERS[coordinates.getX()] + (coordinates.getY() + 1);
-    }
-
     public void enterPlayerName() {
-        scanner = new Scanner(System.in);
-        System.out.println("Please enter your name");
-        Game.playerName = scanner.nextLine();
+        try {
+            scanner = new Scanner(System.in);
+            System.out.println("Please enter your name");
+            Game.playerName = scanner.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isConfirm() {
-        System.out.println("Would you like to continue? yes/no");
-        String confirm = scanner.nextLine();
+        try {
+            System.out.println("Would you like to continue? yes/no");
+            String confirm = scanner.nextLine();
 
-        return confirm.equals("yes");
+            return confirm.equals("yes");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public void printWinMessage(String playerName) {
@@ -139,6 +122,27 @@ public class Display {
         System.out.println("*** Carrier = " + numberOfCarrier + " | Battleship = " + numberOfBattleship +
                 " | Destroyer = " + numberOfDestroyer + " | Submarine = " + numberOfSubmarine +
                 " | Patrol Boat = " + numberOfPatrolBoat);
+    }
+
+    public Coordinates translateRawCoordinates(String rawCoordinates) {
+        String[] rawCoordinatesArray = rawCoordinates.split("");
+
+        if (rawCoordinatesArray.length == 3) {
+            rawCoordinatesArray[1] = rawCoordinatesArray[1] + rawCoordinatesArray[2];
+        }
+
+        for (int i = 0; i < X_BY_LETTERS.length; i++) {
+            if (rawCoordinatesArray[0].toUpperCase(Locale.ROOT).equals(X_BY_LETTERS[i])) {
+                return new Coordinates(i, Integer.parseInt(rawCoordinatesArray[1]) - 1);
+            }
+        }
+
+        return null;
+    }
+
+    public String translateCoordinatesToRaw(Coordinates coordinates) {
+
+        return X_BY_LETTERS[coordinates.getX()] + (coordinates.getY() + 1);
     }
 
 }

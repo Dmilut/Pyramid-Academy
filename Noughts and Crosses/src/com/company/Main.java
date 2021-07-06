@@ -34,7 +34,13 @@ public class Main {
             while (!isWin) {
                 if (isMoveOfUser) {
                     System.out.println("What is your next move? (1-9)");
-                    int input = scanner.nextInt();
+                    int input = 0;
+
+                    try {
+                        input = scanner.nextInt();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     if (isInputValid(input)) {
                         String[] responseByDigits = String.valueOf(translateInput(input)).split("\\.");
@@ -51,7 +57,7 @@ public class Main {
                     break;
                 }
 
-                if(getEmptyCells().isEmpty()) {
+                if (getEmptyCells().isEmpty()) {
                     System.out.println("Draw victory!");
                     break;
                 }
@@ -74,13 +80,25 @@ public class Main {
 
             System.out.println("\nDo you want to play again? (yes or no)");
             scanner = new Scanner(System.in);
-            isContinue = scanner.nextLine().equals("yes");
+
+            try {
+                isContinue = scanner.nextLine().equals("yes");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private static String checkUserSymbol() {
         scanner = new Scanner(System.in);
-        return scanner.nextLine();
+        String userSymbol = null;
+        try {
+            userSymbol = scanner.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userSymbol;
     }
 
     private static void printTitle() {

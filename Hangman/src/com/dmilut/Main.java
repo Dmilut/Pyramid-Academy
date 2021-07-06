@@ -8,7 +8,7 @@ public class Main {
         boolean isContinue = true;
         boolean isWin = false;
         int numberOfCoincidences;
-        String input;
+        String input = null;
         int wordIndex;
         List<String> letters;
         ArrayList<String> attempts;
@@ -35,7 +35,11 @@ public class Main {
                 printAttempts(attempts);
 
                 System.out.println("Guess a letter.");
-                input = scanner.nextLine();
+                try {
+                    input = scanner.nextLine();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 numberOfCoincidences = 0;
 
@@ -73,7 +77,12 @@ public class Main {
             System.out.println("Yes! The secret word is \"" + words.get(wordIndex) + "\"! You have won!\n" +
                     "Do you want to play again? (yes or no)\n");
 
-            input = scanner.nextLine();
+            try {
+                input = scanner.nextLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (input.equals("no")) {
                 isContinue = false;
             } else {
