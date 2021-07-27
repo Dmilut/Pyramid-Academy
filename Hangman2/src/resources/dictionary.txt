@@ -1,0 +1,5 @@
+cat
+pet
+java
+dog
+Linux
