@@ -44,8 +44,8 @@ public class Main {
                 numberOfCoincidences = 0;
 
                 if (letters.contains(input)) {
-                    for (String aChar : letters) {
-                        if (aChar.equals(input)) {
+                    for (String letter : letters) {
+                        if (letter.equals(input)) {
                             attempts.add("O");
                             numberOfCoincidences++;
                         }
