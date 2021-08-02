@@ -14,7 +14,6 @@ import java.util.stream.IntStream;
 public class Util {
 
     public static ArrayList<String> readFile(Path path) throws IOException {
-        //= Paths.get("src/test/resources/fileTest.txt");
 
         return new ArrayList<>(Files.readAllLines(path));
     }
@@ -50,16 +49,6 @@ public class Util {
             } else {
                 content.add(record);
             }
-
-/*            content
-                    .forEach(i -> {
-                        if (i.split(" ")[0].equals(name)) {
-
-                            i.split(" ")[1] = String.valueOf(score);
-                        } else {
-                            content.add(record);
-                        }
-                    });*/
 
             Files.write(path, content, StandardCharsets.UTF_8);
         }
